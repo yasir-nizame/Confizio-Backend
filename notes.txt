@@ -1,0 +1,26 @@
+tasks remaining
+
+author dashbaord pages (track paper status/edit paper/delete paper)
+organizer page to see reviewes for each paper✅
+organizer page to make a final decision ✅
+score calculation
+login controller to be editted to store the reviewer info in the databsse and associate him  with the confernce✅
+email setup correction✅
+
+
+later to be done
+welcome emails
+responsivenness
+notificaion system
+message system/in app messages
+plag checking
+
+
+tbd
+welcome emails
+api connection
+empty database
+conference start end validation 
+ui better
+modifcattion required pprs setup ✅
+

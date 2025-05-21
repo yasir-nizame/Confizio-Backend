@@ -8,7 +8,6 @@ import conferenceRoute from "./routes/conferenceRoute.js";
 import emailRoute from "./routes/emailRoute.js";
 import reviewerRoute from "./routes/reviewerRoute.js";
 import organizerRoute from "./routes/organizerRoute.js";
-import path from "path";
 import cors from "cors";
 
 dotenv.config();
@@ -47,3 +46,5 @@ app.all("/api/*", (req, res) => {
 app.listen(port, () => {
   console.log(`App listening on port: ${port}`);
 });
+
+export default app;

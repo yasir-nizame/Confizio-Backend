@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res, next) => {
   res.status(200).json({
     status: "success",
-    message: "Hello from the Confizio Server! Test",
+    message: "Hello from the Confizio Server! Test Change",
   });
 });
 

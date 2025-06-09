@@ -75,7 +75,7 @@ export const checkPlagiarismController = async (pdfBuffer, paperId) => {
     const winstonResult = json.winstonai;
     const saplingResult = json.sapling;
     console.log("winstonai api response: ", winstonResult);
-    console.log("sapling api response: ", saplingResult);
+    console.log("sapling api response is: ", saplingResult);
 
     if (!winstonResult) {
       throw new Error("No plagiarism data returned from winston API.");
@@ -776,7 +776,6 @@ export const deletePaperController = async (req, res) => {
               { _id: author.userConferenceId },
               { $pull: { roles: { role: "author" } } }
             );
-
           }
         }
       }

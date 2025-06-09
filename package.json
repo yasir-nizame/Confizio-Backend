@@ -4,7 +4,7 @@
   "description": "Conference Management System",
   "main": "server.js",
   "type": "module",
-  "proxy": "http://localhost:8080",
+  "proxy": "http://localhost:3012",
   "scripts": {
     "start": "nodemon server.js"
   },

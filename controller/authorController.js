@@ -448,13 +448,13 @@ const runPythonChecker = (pdfBuffer) => {
     // Capture stdout (compliance report)
     pythonProcess.stdout.on("data", (data) => {
       output += data.toString();
-      console.log("Python stdout:", data.toString()); // Debug output
+      // console.log("Python stdout:", data.toString()); // Debug output
     });
 
     // Capture stderr (errors)
     pythonProcess.stderr.on("data", (data) => {
       errorOutput += data.toString();
-      console.log("Python stderr:", data.toString()); // Debug errors
+      // console.log("Python stderr:", data.toString()); // Debug errors
     });
 
     // Handle process completion

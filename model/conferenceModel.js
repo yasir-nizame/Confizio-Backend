@@ -6,6 +6,7 @@ const conferenceSchema = new mongoose.Schema({
   organizerName: { type: String, required: true },
   organizerEmail: { type: String, required: true },
   webPage: { type: String },
+  mode: { type: String },
   venue: { type: String },
   city: { type: String },
   country: { type: String },

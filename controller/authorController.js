@@ -17,11 +17,7 @@ import fs from "fs";
 const getPythonCommand = () => {
   const venvPythonPath = path.join(__dirname, "../venv/bin/python");
 
-  if (process.env.NODE_ENV === "development") {
-    return venvPythonPath;
-  } else {
-    return which.sync("python");
-  }
+  return venvPythonPath;
 };
 
 export const checkComplianceController = async (req, res) => {

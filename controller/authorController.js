@@ -14,9 +14,18 @@ const __dirname = path.dirname(__filename);
 import which from "which";
 
 const getPythonCommand = () => {
+  const venvPythonPath = path.join(__dirname, "venv/bin/python");
+
+  // 1. If virtual env python exists, use that
+  if (fs.existsSync(venvPythonPath)) {
+    return venvPythonPath;
+  }
+
+  // 2. Otherwise, try to find 'python3'
   try {
     return which.sync("python3");
   } catch {
+    // 3. Fallback to 'python'
     return which.sync("python");
   }
 };

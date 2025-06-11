@@ -15,7 +15,7 @@ import which from "which";
 import fs from "fs";
 
 const getPythonCommand = () => {
-  const venvPythonPath = path.join(__dirname, "venv/bin/python");
+  const venvPythonPath = path.join(__dirname, "../venv/bin/python");
 
   console.log("venv Python Path", venvPythonPath);
 

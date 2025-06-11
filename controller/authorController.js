@@ -12,6 +12,7 @@ import { spawn } from "child_process"; // For running Python script
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 import which from "which";
+import fs from "fs";
 
 const getPythonCommand = () => {
   const venvPythonPath = path.join(__dirname, "venv/bin/python");

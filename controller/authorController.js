@@ -92,24 +92,10 @@ export const checkPlagiarismController = async (pdfBuffer, paperId) => {
     if (!saplingResult) {
       throw new Error("No plagiarism data returned from sapling API.");
     }
-
+    const plagPercentage = saplingResult.ai_score * 100 || 0;
     const plagiarismReport = {
-      score: winstonResult.score || 0,
-      isAIGenerated: winstonResult.ai_score > 0.5,
-      details: [
-        {
-          type: "Plagiarism Score",
-          value: winstonResult.score || 0,
-          description: `The paper has a ${winstonResult.score}% likelihood of containing plagiarized content.`,
-        },
-        {
-          type: "AI Content",
-          value: winstonResult.ai_score || 0,
-          description: `The paper has a ${
-            winstonResult.ai_score * 100
-          }% likelihood of being AI-generated.`,
-        },
-      ],
+      score: plagPercentage,
+      isAIGenerated: plagPercentage > 50,
     };
 
     await ResearchPaper.findByIdAndUpdate(
@@ -399,28 +385,27 @@ export const submitPaperController = async (req, res) => {
     //////////////////added code  for plag////////////////////
 
     // Step 7: Run plagiarism check asynchronously
-    let plagiarismReport = {
-      score: 0,
-      isAIGenerated: false,
-      details: [
-        {
-          type: "Pending",
-          value: 0,
-          description: "Plagiarism check is running...",
-        },
-      ],
-    };
 
-    //replace back with originial controler
-    dummyPlagiarismCheckController(req.file.buffer, paper._id)
-      .then((report) => {
-        // console.log("Plagiarism Report:", report);
-        // Plagiarism report is already saved in the controller
-      })
-      .catch((error) => {
-        console.error("Failed to process plagiarism check:", error.message);
-        // Error report is already saved in the controller
-      });
+    let plagiarismReport;
+    try {
+      plagiarismReport = await checkPlagiarismController(
+        req.file.buffer,
+        paper._id
+      );
+    } catch (error) {
+      console.error("Failed to process plagiarism check:", error.message);
+      plagiarismReport = {
+        score: 0,
+        isAIGenerated: false,
+        details: [
+          {
+            type: "Error",
+            value: 0,
+            description: `Plagiarism check failed: ${error.message}`,
+          },
+        ],
+      };
+    }
 
     return res.status(201).json({
       message: "Paper submitted successfully",
@@ -428,12 +413,6 @@ export const submitPaperController = async (req, res) => {
       complianceReport,
       plagiarismReport,
     });
-
-    // return res.status(201).json({
-    //   message: "Paper submitted successfully",
-    //   paper,
-    //   complianceReport,
-    // });
   } catch (error) {
     console.error("Submission error:", error.message);
     return res

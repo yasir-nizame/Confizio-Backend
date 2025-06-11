@@ -50,24 +50,10 @@ const researchPaperSchema = new mongoose.Schema({
     type: {
       score: { type: Number },
       isAIGenerated: { type: Boolean },
-      details: [
-        {
-          type: { type: String },
-          value: { type: Number },
-          description: { type: String },
-        },
-      ],
     },
     default: {
       score: 0,
       isAIGenerated: false,
-      details: [
-        {
-          type: "Pending",
-          value: 0,
-          description: "Plagiarism check is running...",
-        },
-      ],
     },
   },
   reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }], // Array of review references

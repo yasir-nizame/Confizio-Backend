@@ -11,6 +11,15 @@ import { spawn } from "child_process"; // For running Python script
 // Derive __dirname equivalent in ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+import which from "which";
+
+const getPythonCommand = () => {
+  try {
+    return which.sync("python3");
+  } catch {
+    return which.sync("python");
+  }
+};
 
 export const checkComplianceController = async (req, res) => {
   try {
@@ -437,7 +446,11 @@ export const submitPaperController = async (req, res) => {
 const runPythonChecker = (pdfBuffer) => {
   return new Promise((resolve, reject) => {
     const scriptPath = path.resolve(__dirname, "../scripts/ieee_checker.py");
-    const pythonProcess = spawn("python", [scriptPath]);
+
+    const pythonCommand = getPythonCommand();
+
+    console.log("pythonCommand", pythonCommand);
+    const pythonProcess = spawn(pythonCommand, [scriptPath]);
     let output = "";
     let errorOutput = "";
 
@@ -776,7 +789,6 @@ export const deletePaperController = async (req, res) => {
               { _id: author.userConferenceId },
               { $pull: { roles: { role: "author" } } }
             );
-
           }
         }
       }

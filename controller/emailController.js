@@ -24,7 +24,8 @@ export const sendInvitationController = async (req, res) => {
         return Promise.reject(new Error(`Invalid email address: ${email}`));
       }
       // http://localhost:3000
-      const inviteLink = `/response?role=reviewer&conferenceId=${conferenceId}&conferenceName=${encodeURIComponent(
+      const inviteLink = `
+        https://confizio.shahzebabro.com//response?role=reviewer&conferenceId=${conferenceId}&conferenceName=${encodeURIComponent(
         conferenceName
       )}`;
 

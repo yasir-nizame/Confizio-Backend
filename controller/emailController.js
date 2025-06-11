@@ -25,7 +25,7 @@ export const sendInvitationController = async (req, res) => {
       }
       // http://localhost:3000
       const inviteLink = `
-        https://confizio.shahzebabro.com//response?role=reviewer&conferenceId=${conferenceId}&conferenceName=${encodeURIComponent(
+        https://confizio.shahzebabro.com/response?role=reviewer&conferenceId=${conferenceId}&conferenceName=${encodeURIComponent(
         conferenceName
       )}`;
 

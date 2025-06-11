@@ -17,15 +17,9 @@ import fs from "fs";
 const getPythonCommand = () => {
   const venvPythonPath = path.join(__dirname, "../venv/bin/python");
 
-  console.log("venv Python Path", venvPythonPath);
-
-  return venvPythonPath;
-
-  // 2. Otherwise, try to find 'python3'
-  try {
-    return which.sync("python3");
-  } catch {
-    // 3. Fallback to 'python'
+  if (process.env.NODE_ENV === "development") {
+    return venvPythonPath;
+  } else {
     return which.sync("python");
   }
 };

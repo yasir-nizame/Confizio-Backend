@@ -59,32 +59,33 @@ export const checkPlagiarismController = async (pdfBuffer, paperId) => {
     }
 
     const url = "https://api.edenai.run/v2/text/ai_detection/";
-    const options = {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        "content-type": "application/json",
-        authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNDI3NGJkM2UtOTdlNS00NTI4LTgzNDYtOTQ2NGYwYjg5YjYxIiwidHlwZSI6ImFwaV90b2tlbiJ9.LA4OM8ngGkCRKzyBgy4sjPKPjshJEmQkr175U4mFjns",
-      },
-      body: JSON.stringify({
+    const response = await axios.post(
+      url,
+      {
         response_as_dict: true,
         attributes_as_list: false,
         show_base_64: true,
         show_original_response: false,
         providers: "sapling,winstonai",
         text: textContent.substring(0, 10000),
-      }),
-    };
+      },
+      {
+        headers: {
+          accept: "application/json",
+          "content-type": "application/json",
+          authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNDI3NGJkM2UtOTdlNS00NTI4LTgzNDYtOTQ2NGYwYjg5YjYxIiwidHlwZSI6ImFwaV90b2tlbiJ9.LA4OM8ngGkCRKzyBgy4sjPKPjshJEmQkr175U4mFjns",
+        },
+      }
+    );
 
-    const response = await fetch(url, options);
-    const json = await response.json();
+    const json = response.data;
     console.log("reponse form api of eden ", json);
 
     const winstonResult = json.winstonai;
     const saplingResult = json.sapling;
     console.log("winstonai api response: ", winstonResult);
-    console.log("sapling api response: ", saplingResult);
+    console.log("sapling api response is: ", saplingResult);
 
     if (!winstonResult) {
       throw new Error("No plagiarism data returned from winston API.");
@@ -461,13 +462,13 @@ const runPythonChecker = (pdfBuffer) => {
     // Capture stdout (compliance report)
     pythonProcess.stdout.on("data", (data) => {
       output += data.toString();
-      console.log("Python stdout:", data.toString()); // Debug output
+      // console.log("Python stdout:", data.toString()); // Debug output
     });
 
     // Capture stderr (errors)
     pythonProcess.stderr.on("data", (data) => {
       errorOutput += data.toString();
-      console.log("Python stderr:", data.toString()); // Debug errors
+      // console.log("Python stderr:", data.toString()); // Debug errors
     });
 
     // Handle process completion

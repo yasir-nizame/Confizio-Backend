@@ -21,6 +21,7 @@ export const createConferenceController = async (req, res) => {
       secondaryArea,
       topics,
       expertise,
+      mode,
     } = req.body;
 
     // Ensure expertise is an array
@@ -47,6 +48,7 @@ export const createConferenceController = async (req, res) => {
     // Validate required fields
     if (
       !conferenceName ||
+      !mode ||
       !acronym ||
       !startDate ||
       !endDate ||
@@ -54,7 +56,7 @@ export const createConferenceController = async (req, res) => {
     ) {
       return res.status(400).json({
         message:
-          "Conference name, acronym, start date, expertise, and end date are required.",
+          "Conference name, acronym, start date, expertise, mode and end date are required.",
       });
     }
 
@@ -71,7 +73,7 @@ export const createConferenceController = async (req, res) => {
     // Construct submission link
     const submissionLink = `${process.env.BASE_URL}/conference/${acronym}/submit-paper/${acronym}`;
     // ✅ Get organizer details
-    const organizerUser = await Users.findById(userId);
+    const organizerUser = await userModel.findById(userId);
     if (!organizerUser) {
       return res.status(404).json({ message: "Organizer user not found." });
     }
@@ -97,6 +99,7 @@ export const createConferenceController = async (req, res) => {
       organizerName: organizerUser.name,
       organizerEmail: organizerUser.email,
       expertise, // Save sanitized expertise
+      mode,
     });
 
     // Save the conference

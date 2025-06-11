@@ -17,8 +17,11 @@ import fs from "fs";
 const getPythonCommand = () => {
   const venvPythonPath = path.join(__dirname, "venv/bin/python");
 
+  console.log("venv Python Path", venvPythonPath);
+
   // 1. If virtual env python exists, use that
   if (fs.existsSync(venvPythonPath)) {
+    console.log("venv exits");
     return venvPythonPath;
   }
 

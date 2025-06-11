@@ -19,11 +19,7 @@ const getPythonCommand = () => {
 
   console.log("venv Python Path", venvPythonPath);
 
-  // 1. If virtual env python exists, use that
-  if (fs.existsSync(venvPythonPath)) {
-    console.log("venv exits");
-    return venvPythonPath;
-  }
+  return venvPythonPath;
 
   // 2. Otherwise, try to find 'python3'
   try {

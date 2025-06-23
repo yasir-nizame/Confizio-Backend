@@ -233,15 +233,15 @@ export const getAssignedPapersForReviewerController = async (req, res) => {
       .populate({
         path: "paperId",
         select:
-          "title abstract keywords paperFilePath conferenceName conferenceAcronym authors status reviews isReviewedBy", // Include 'reviews' for each paper
+          "title abstract keywords paperFilePath conferenceName conferenceAcronym authors status reviews isReviewedBy", 
         populate: {
           path: "authors",
-          select: "firstName lastName email affiliation", // Select author fields
+          select: "firstName lastName email affiliation",
         },
       })
       .populate({
         path: "conferenceId",
-        select: "name acronym", // Adjust conference fields if needed
+        select: "conferenceName acronym", 
       });
 
     if (!assignments || assignments.length === 0) {

@@ -13,7 +13,6 @@ import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 
 const router = express.Router();
 
-
 export const assignPapersToReviewersController = async (req, res) => {
   try {
     const { conferenceId } = req.body;
@@ -175,7 +174,7 @@ export const getAssignmentsByConferenceController = async (req, res) => {
 
     // Fetch all assignments for the given conference
     const assignments = await Assignment.find({ conferenceId })
-      .populate("paperId", "title keywords authors")
+      .populate("paperId", "title keywords authors conferenceName")
       .populate("reviewerId", "name email")
       .exec();
 
@@ -282,6 +281,7 @@ export const getReviewManagementDataController = async (req, res) => {
         complianceScore: paper.complianceReport?.percentage ?? null, // Include compliance report
         authors,
         plagiarismReport: paper.plagiarismReport ?? null,
+        conferenceName: paper.conferenceName,
       };
     });
 
@@ -711,10 +711,13 @@ export const fetchAcceptedPapersController = async (req, res) => {
       conferenceId,
       finaldecision: "Accepted",
     })
-      .populate("authors", "firstName lastName email country affiliation")
-      .select("title abstract keywords authors");
-
-    res.status(200).json(papers);
+      .populate("authors", "firstName lastName email country affiliation ")
+      .select("title abstract keywords authors conferenceName");
+    const conference = await conferenceModel
+      .findById(conferenceId)
+      .select("conferenceName");
+    const conferenceName = conference?.conferenceName || "";
+    res.status(200).json({ papers, conferenceName });
   } catch (err) {
     console.error("Error fetching papers:", err);
     res.status(500).json({ error: "Failed to fetch papers" });
